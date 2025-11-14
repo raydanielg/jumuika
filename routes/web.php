@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\EarlyAccessRequestController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -36,6 +37,10 @@ Route::get('/accommodation-owners', function () {
 Route::get('/about', function () {
     return Inertia::render('About');
 })->name('about');
+
+Route::get('/contact', [ContactController::class, 'create'])->name('contact');
+Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
+Route::post('/newsletter/subscribe', [ContactController::class, 'subscribe'])->name('newsletter.subscribe');
 
 Route::get('/early-access', [EarlyAccessRequestController::class, 'create'])
     ->name('early-access.create');

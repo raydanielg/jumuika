@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\NewsItem;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -29,11 +30,21 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        $news = NewsItem::query()
+            ->where('is_active', true)
+            ->orderByDesc('created_at')
+            ->first();
+
         return [
             ...parent::share($request),
             'auth' => [
                 'user' => $request->user(),
             ],
+            'news' => $news ? [
+                'title' => $news->title,
+                'url' => $news->url,
+                'audience' => $news->audience,
+            ] : null,
         ];
     }
 }

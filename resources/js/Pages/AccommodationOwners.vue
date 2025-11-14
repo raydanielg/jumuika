@@ -116,15 +116,6 @@ watch(isDark, (val) => applyTheme(val));
                 </nav>
 
                 <div class="flex items-center gap-3 text-xs sm:text-sm">
-                    <button
-                        type="button"
-                        class="inline-flex items-center px-3 py-1.5 rounded-full border border-slate-400/60 text-[11px] text-slate-800 bg-white hover:bg-slate-100 dark:border-slate-600 dark:text-slate-100 dark:bg-[#020617] dark:hover:bg-slate-800/70"
-                        @click="isDark = !isDark"
-                    >
-                        <span class="mr-1">Theme</span>
-                        <span v-if="isDark">☀️</span>
-                        <span v-else>🌙</span>
-                    </button>
                     <Link
                         v-if="canLogin"
                         :href="route('login')"

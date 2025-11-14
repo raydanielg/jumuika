@@ -1,6 +1,7 @@
 <script setup>
 import { Head, Link } from '@inertiajs/vue3';
 import MarketingFooter from '@/Components/MarketingFooter.vue';
+import NewsPill from '@/Components/NewsPill.vue';
 import { ref, onMounted, watch } from 'vue';
 
 defineProps({
@@ -119,15 +120,6 @@ watch(isDark, (val) => applyTheme(val));
                 </nav>
 
                 <div class="flex items-center gap-3 text-xs sm:text-sm">
-                    <button
-                        type="button"
-                        class="inline-flex items-center px-3 py-1.5 rounded-full border border-slate-400/60 text-[11px] text-slate-800 bg-white hover:bg-slate-100 dark:border-slate-600 dark:text-slate-100 dark:bg-[#020617] dark:hover:bg-slate-800/70"
-                        @click="isDark = !isDark"
-                    >
-                        <span class="mr-1">Theme</span>
-                        <span v-if="isDark">☀️</span>
-                        <span v-else>🌙</span>
-                    </button>
                     <Link
                         v-if="canLogin"
                         :href="route('login')"
@@ -154,20 +146,45 @@ watch(isDark, (val) => applyTheme(val));
                 </div>
             </div>
         </header>
+        <transition name="fade">
+            <div
+                v-if="showMobileNav"
+                class="fixed inset-0 z-30 md:hidden bg-white/95 backdrop-blur flex flex-col"
+            >
+                <div class="flex items-center justify-between px-4 py-3 border-b border-slate-200">
+                    <div class="flex items-center gap-2">
+                        <img
+                            src="/storage/appicon.png"
+                            alt="Jumuika Pro logo"
+                            class="h-8 w-8 rounded-md object-contain bg-slate-900 border border-slate-300"
+                        />
+                        <span class="text-sm font-semibold text-slate-900">Jumuika Pro</span>
+                    </div>
+                    <button
+                        type="button"
+                        class="inline-flex items-center px-3 py-1.5 rounded-full border border-slate-300 text-[11px] text-slate-800 bg-white hover:bg-slate-100"
+                        @click="showMobileNav = false"
+                    >
+                        Close ✕
+                    </button>
+                </div>
 
-        <div v-if="showMobileNav" class="md:hidden border-b border-slate-200 bg-white">
-            <nav class="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex flex-col gap-2 text-xs">
-                <a href="#features" class="text-slate-700 hover:text-slate-900">
-                    Features
-                </a>
-                <a href="#workflow" class="text-slate-700 hover:text-slate-900">
-                    How it works
-                </a>
-                <a href="#results" class="text-slate-700 hover:text-slate-900">
-                    Results
-                </a>
-            </nav>
-        </div>
+                <nav class="flex-1 px-6 py-6 flex flex-col gap-4 text-sm text-slate-800">
+                    <a href="#features" class="py-2 border-b border-slate-100">Features</a>
+                    <a href="#workflow" class="py-2 border-b border-slate-100">How it works</a>
+                    <a href="#results" class="py-2 border-b border-slate-100">Pricing</a>
+                    <Link href="/about" class="py-2 border-b border-slate-100">About</Link>
+                    <Link href="/contact" class="py-2 border-b border-slate-100">Contact</Link>
+                </nav>
+
+                <div class="px-6 py-4 border-t border-slate-200 text-[11px] text-slate-500">
+                    <p>
+                        Jumuika Pro helps Tanzanian safari teams send better quotes and manage
+                        their work in one place.
+                    </p>
+                </div>
+            </div>
+        </transition>
 
         <!-- Hero -->
         <main class="flex-1 bg-slate-50">
