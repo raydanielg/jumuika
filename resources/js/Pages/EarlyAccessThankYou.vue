@@ -16,7 +16,7 @@ import MarketingFooter from '@/Components/MarketingFooter.vue';
             >
                 <div class="flex items-center gap-2">
                     <img
-                        src="/logo.png"
+                        src="/storage/appicon.png"
                         alt="Jumuika Pro logo"
                         class="h-9 w-9 rounded-md object-contain bg-slate-900 border border-slate-300"
                     />

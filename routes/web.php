@@ -33,6 +33,10 @@ Route::get('/accommodation-owners', function () {
     ]);
 })->name('accommodation-owners');
 
+Route::get('/about', function () {
+    return Inertia::render('About');
+})->name('about');
+
 Route::get('/early-access', [EarlyAccessRequestController::class, 'create'])
     ->name('early-access.create');
 

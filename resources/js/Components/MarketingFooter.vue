@@ -31,7 +31,7 @@ import { Link } from '@inertiajs/vue3';
             >
                 <div class="flex items-center gap-2">
                     <img
-                        src="/logo.png"
+                        src="/storage/appicon.png"
                         alt="Jumuika Pro logo"
                         class="h-7 w-7 rounded-md object-contain bg-slate-900 border border-slate-600"
                     />

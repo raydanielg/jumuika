@@ -13,6 +13,7 @@ defineProps({
 });
 
 const isDark = ref(true);
+const showMobileNav = ref(false);
 
 function applyTheme(value) {
     const root = document.documentElement;
@@ -68,9 +69,14 @@ watch(isDark, (val) => applyTheme(val));
                         For Accommodations
                     </Link>
                 </div>
-                <div class="hidden sm:flex items-center gap-4 text-slate-300">
-                    <Link href="/about" class="hover:text-slate-50">About</Link>
-                    <Link href="/contact" class="hover:text-slate-50">Contact</Link>
+                <div class="flex items-center gap-3 text-slate-500 dark:text-slate-300 text-[11px] sm:text-xs">
+                    <Link href="/about" class="hover:text-slate-900 dark:hover:text-slate-50">
+                        About
+                    </Link>
+                    <span class="hidden xs:inline-block text-slate-400">•</span>
+                    <Link href="/contact" class="hover:text-slate-900 dark:hover:text-slate-50">
+                        Contact
+                    </Link>
                 </div>
             </div>
         </div>
@@ -84,7 +90,7 @@ watch(isDark, (val) => applyTheme(val));
             >
                 <div class="flex items-center gap-2">
                     <img
-                        src="/logo.png"
+                        src="/storage/appicon.png"
                         alt="Jumuika Pro logo"
                         class="h-9 w-9 rounded-md object-contain bg-slate-900 border border-slate-300 dark:bg-[#020617] dark:border-[#374151]"
                     />
@@ -136,13 +142,40 @@ watch(isDark, (val) => applyTheme(val));
                     >
                         Sign Up Free
                     </Link>
+                    <button
+                        type="button"
+                        class="inline-flex items-center md:hidden px-3 py-1.5 rounded-full border border-slate-300 text-[11px] text-slate-800 bg-white hover:bg-slate-100"
+                        @click="showMobileNav = !showMobileNav"
+                    >
+                        <span class="mr-1">Menu</span>
+                        <span v-if="showMobileNav">✕</span>
+                        <span v-else>☰</span>
+                    </button>
                 </div>
             </div>
         </header>
 
+        <div v-if="showMobileNav" class="md:hidden border-b border-slate-200 bg-white">
+            <nav class="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex flex-col gap-2 text-xs">
+                <a href="#features" class="text-slate-700 hover:text-slate-900">
+                    Features
+                </a>
+                <a href="#workflow" class="text-slate-700 hover:text-slate-900">
+                    How it works
+                </a>
+                <a href="#results" class="text-slate-700 hover:text-slate-900">
+                    Results
+                </a>
+            </nav>
+        </div>
+
         <!-- Hero -->
-        <main class="flex-1 bg-gradient-to-b from-[#020617] via-[#020617] to-[#111827]">
-            <section class="max-w-6xl mx-auto px-4 sm:px-6 py-10 sm:py-14">
+        <main class="flex-1 bg-slate-50">
+            <section
+                class="bg-[url('/storage/light-green-vector-background-with-dots-lines_6869-1443.jpg')] bg-cover bg-center"
+            >
+                <div class="bg-white/90">
+                    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-10 sm:py-14">
                 <div class="grid lg:grid-cols-2 gap-10 items-center">
                     <!-- Left: text -->
                     <div>
@@ -152,12 +185,12 @@ watch(isDark, (val) => applyTheme(val));
                             Built for Tanzanian safari sales teams
                         </p>
                         <h1
-                            class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-50 leading-tight mb-4"
+                            class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 leading-tight mb-4"
                         >
                             Leading Sales Software
-                            <span class="block text-[#facc15]">for the Safari Industry.</span>
+                            <span class="block text-[#ca8a04]">for the Safari Industry.</span>
                         </h1>
-                        <p class="text-sm sm:text-base text-slate-300 max-w-xl mb-6">
+                        <p class="text-sm sm:text-base text-slate-700 max-w-xl mb-6">
                             Create beautiful itineraries, quote faster, and close more
                             bookings. Jumuika Pro gives tour operators a simple, powerful
                             workspace tailored to East African safaris.
@@ -179,7 +212,7 @@ watch(isDark, (val) => applyTheme(val));
                             </a>
                         </div>
 
-                        <div class="flex items-center gap-3 text-[11px] text-slate-400">
+                        <div class="flex items-center gap-3 text-[11px] text-slate-500">
                             <div class="flex items-center gap-1">
                                 <span class="inline-flex text-[#facc15]">★★★★★</span>
                                 <span>Trusted by safari operators in Tanzania</span>
@@ -242,34 +275,37 @@ watch(isDark, (val) => applyTheme(val));
                         </div>
                     </div>
                 </div>
+                    </div>
+                </div>
             </section>
 
             <!-- Created for safari industry section -->
             <section
                 id="created-for"
-                class="bg-gradient-to-b from-[#020617] via-[#020617] to-[#0b1220] border-t border-[#111827]/70 py-10 sm:py-14"
+                class="border-t border-emerald-100 py-10 sm:py-14 bg-[url('/storage/line-wave-background-minimalist-style_483537-3578.jpg')] bg-cover bg-center"
             >
-                <div class="max-w-6xl mx-auto px-4 sm:px-6">
-                    <div
-                        class="grid md:grid-cols-2 gap-8 items-center rounded-3xl bg-[#020617] border border-[#1f2937] shadow-[0_24px_60px_rgba(0,0,0,0.65)] overflow-hidden"
-                    >
+                <div class="bg-white/85">
+                    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-8">
+                        <div
+                            class="grid md:grid-cols-2 gap-8 items-center rounded-3xl bg-white/95 border border-emerald-100 shadow-xl overflow-hidden"
+                        >
                         <div class="relative h-full">
                             <div
                                 class="h-full min-h-[220px] sm:min-h-[260px] bg-[url('https://images.pexels.com/photos/417074/pexels-photo-417074.jpeg?auto=compress&cs=tinysrgb&w=1200')] bg-cover bg-center"
                             ></div>
                             <div
-                                class="absolute inset-x-6 bottom-0 h-4 rounded-t-3xl bg-[#4ade80]/10"
+                                class="absolute inset-x-6 bottom-0 h-4 rounded-t-3xl bg-[#4ade80]/20"
                             ></div>
                         </div>
 
                         <div class="p-5 sm:p-7">
                             <h2
-                                class="text-xl sm:text-2xl font-extrabold text-slate-50 mb-2 leading-snug"
+                                class="text-xl sm:text-2xl font-extrabold text-slate-900 mb-2 leading-snug"
                             >
                                 Created for the
-                                <span class="text-[#facc15]">safari industry.</span>
+                                <span class="text-[#ca8a04]">safari industry.</span>
                             </h2>
-                            <p class="text-sm sm:text-base text-slate-300 mb-4">
+                            <p class="text-sm sm:text-base text-slate-700 mb-4">
                                 No need to be an IT guru — Jumuika Pro is built to make
                                 day-to-day safari sales easier. It&apos;s tailored to the
                                 workflows of East African tour operators so your team can
@@ -277,7 +313,7 @@ watch(isDark, (val) => applyTheme(val));
                             </p>
                             <a
                                 href="#features"
-                                class="inline-flex items-center text-xs sm:text-sm font-semibold text-[#bef264] hover:text-[#facc15]"
+                                class="inline-flex items-center text-xs sm:text-sm font-semibold text-emerald-700 hover:text-[#ca8a04]"
                             >
                                 Learn more about the features
                                 <span class="ml-1">&rarr;</span>
@@ -286,7 +322,7 @@ watch(isDark, (val) => applyTheme(val));
                     </div>
 
                     <div
-                        class="mt-6 grid gap-4 text-[11px] sm:text-sm text-slate-200 md:grid-cols-3"
+                        class="mt-6 grid gap-4 text-[11px] sm:text-sm text-slate-700 md:grid-cols-3"
                     >
                         <div class="flex items-start gap-2">
                             <span
@@ -324,6 +360,7 @@ watch(isDark, (val) => applyTheme(val));
                                 a single source of truth.
                             </p>
                         </div>
+                    </div>
                     </div>
                 </div>
             </section>

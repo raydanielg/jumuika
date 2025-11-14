@@ -13,6 +13,7 @@ defineProps({
 });
 
 const isDark = ref(true);
+const showMobileNav = ref(false);
 
 function applyTheme(value) {
     const root = document.documentElement;
@@ -65,9 +66,14 @@ watch(isDark, (val) => applyTheme(val));
                         <span class="font-semibold"> Accommodations</span>
                     </span>
                 </div>
-                <div class="hidden sm:flex items-center gap-4 text-slate-300">
-                    <Link href="/about" class="hover:text-slate-50">About</Link>
-                    <Link href="/contact" class="hover:text-slate-50">Contact</Link>
+                <div class="flex items-center gap-3 text-slate-500 dark:text-slate-300 text-[11px] sm:text-xs">
+                    <Link href="/about" class="hover:text-slate-900 dark:hover:text-slate-50">
+                        About
+                    </Link>
+                    <span class="hidden xs:inline-block text-slate-400">•</span>
+                    <Link href="/contact" class="hover:text-slate-900 dark:hover:text-slate-50">
+                        Contact
+                    </Link>
                 </div>
             </div>
         </div>
@@ -81,7 +87,7 @@ watch(isDark, (val) => applyTheme(val));
             >
                 <div class="flex items-center gap-2">
                     <img
-                        src="/logo.png"
+                        src="/storage/appicon.png"
                         alt="Jumuika Pro logo"
                         class="h-9 w-9 rounded-md object-contain bg-slate-900 border border-slate-300 dark:bg-[#020617] dark:border-[#374151]"
                     />
@@ -132,9 +138,32 @@ watch(isDark, (val) => applyTheme(val));
                     >
                         Request Early Access
                     </Link>
+                    <button
+                        type="button"
+                        class="inline-flex items-center md:hidden px-3 py-1.5 rounded-full border border-slate-300 text-[11px] text-slate-800 bg-white hover:bg-slate-100"
+                        @click="showMobileNav = !showMobileNav"
+                    >
+                        <span class="mr-1">Menu</span>
+                        <span v-if="showMobileNav">✕</span>
+                        <span v-else>☰</span>
+                    </button>
                 </div>
             </div>
         </header>
+
+        <div v-if="showMobileNav" class="md:hidden border-b border-slate-200 bg-white">
+            <nav class="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex flex-col gap-2 text-xs">
+                <a href="#features" class="text-slate-700 hover:text-slate-900">
+                    Features
+                </a>
+                <a href="#rooms" class="text-slate-700 hover:text-slate-900">
+                    Room management
+                </a>
+                <a href="#insights" class="text-slate-700 hover:text-slate-900">
+                    Insights
+                </a>
+            </nav>
+        </div>
 
         <!-- Hero -->
         <main class="flex-1 bg-gradient-to-b from-[#ecfdf3] via-[#f0fdf4] to-[#e5f6ff] dark:from-[#020617] dark:via-[#020617] dark:to-[#111827]">
