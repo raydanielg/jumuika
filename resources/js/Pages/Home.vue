@@ -1,5 +1,6 @@
 <script setup>
 import { Head, Link } from '@inertiajs/vue3';
+import { ref, onMounted, watch } from 'vue';
 
 defineProps({
     canLogin: {
@@ -18,18 +19,41 @@ defineProps({
     },
 });
 
-function handleImageError() {
-    document.getElementById('screenshot-container')?.classList.add('!hidden');
-    document.getElementById('docs-card')?.classList.add('!row-span-1');
-    document.getElementById('background')?.classList.add('!hidden');
+const isDark = ref(true);
+
+function applyTheme(value) {
+    const root = document.documentElement;
+    if (value) {
+        root.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+    } else {
+        root.classList.remove('dark');
+        localStorage.setItem('theme', 'light');
+    }
 }
+
+onMounted(() => {
+    const stored = localStorage.getItem('theme');
+    if (stored === 'dark' || stored === 'light') {
+        isDark.value = stored === 'dark';
+    } else if (window.matchMedia) {
+        isDark.value = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    }
+    applyTheme(isDark.value);
+});
+
+watch(isDark, (val) => applyTheme(val));
 </script>
 
 <template>
     <Head title="Home" />
-    <div class="min-h-screen flex flex-col bg-[#14100d] text-slate-900">
+    <div
+        class="min-h-screen flex flex-col bg-white text-slate-900 dark:bg-[#020617] dark:text-slate-50"
+    >
         <!-- Top navigation -->
-        <header class="w-full border-b border-[#2b231b] bg-[#1d1813] text-[#f5e6c8]">
+        <header
+            class="w-full border-b border-slate-200 bg-white text-slate-900 dark:border-[#1f2937] dark:bg-[#020617] dark:text-[#f5e6c8]"
+        >
             <div
                 class="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between h-14 sm:h-16"
             >
@@ -37,25 +61,39 @@ function handleImageError() {
                     <img
                         src="/logo.png"
                         alt="Jumuika Pro logo"
-                        class="h-8 w-8 rounded-md object-contain bg-[#0f0a07] border border-[#3a2c21]"
+                        class="h-8 w-8 rounded-md object-contain bg-slate-900 border border-slate-300 dark:bg-[#0f0a07] dark:border-[#3a2c21]"
                     />
                     <span class="font-semibold tracking-tight text-sm sm:text-base">
                         Jumuika Pro
                     </span>
                 </div>
 
-                <nav class="hidden md:flex items-center gap-6 text-xs sm:text-sm">
+                <nav class="hidden md:flex items-center gap-6 text-xs sm:text-sm text-slate-700 dark:text-inherit">
                     <Link
                         :href="route('tour-operators')"
                         class="cursor-pointer hover:text-[#fde68a]"
                     >
                         For Tour Operators
                     </Link>
-                    <span class="cursor-pointer hover:text-[#fde68a]">For Accommodations</span>
+                    <Link
+                        :href="route('accommodation-owners')"
+                        class="cursor-pointer hover:text-[#fde68a]"
+                    >
+                        For Accommodations
+                    </Link>
                     <span class="cursor-pointer hover:text-[#fde68a]">Pricing &amp; Features</span>
                 </nav>
 
                 <div class="flex items-center gap-3 text-xs sm:text-sm">
+                    <button
+                        type="button"
+                        class="inline-flex items-center px-3 py-1.5 rounded-full border border-slate-400/60 text-[11px] text-slate-800 bg-white hover:bg-slate-100 dark:border-[#facc15]/40 dark:text-[#fef3c7] dark:bg-[#14100d] dark:hover:bg-[#facc15]/10 mr-1"
+                        @click="isDark = !isDark"
+                    >
+                        <span class="mr-1">Theme</span>
+                        <span v-if="isDark">☀️</span>
+                        <span v-else>🌙</span>
+                    </button>
                     <Link
                         v-if="canLogin"
                         :href="route('login')"

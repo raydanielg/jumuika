@@ -1,5 +1,7 @@
 <script setup>
 import { Head, Link } from '@inertiajs/vue3';
+import MarketingFooter from '@/Components/MarketingFooter.vue';
+import { ref, onMounted, watch } from 'vue';
 
 defineProps({
     canLogin: {
@@ -9,20 +11,55 @@ defineProps({
         type: Boolean,
     },
 });
+
+const isDark = ref(true);
+
+function applyTheme(value) {
+    const root = document.documentElement;
+    if (value) {
+        root.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+    } else {
+        root.classList.remove('dark');
+        localStorage.setItem('theme', 'light');
+    }
+}
+
+onMounted(() => {
+    const stored = localStorage.getItem('theme');
+    if (stored === 'dark' || stored === 'light') {
+        isDark.value = stored === 'dark';
+    } else if (window.matchMedia) {
+        isDark.value = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    }
+    applyTheme(isDark.value);
+});
+
+watch(isDark, (val) => applyTheme(val));
 </script>
 
 <template>
     <Head title="For Tour Operators" />
-    <div class="min-h-screen flex flex-col bg-[#0f1720] text-slate-50">
+    <div
+        class="min-h-screen flex flex-col bg-slate-50 text-slate-900 dark:bg-[#020617] dark:text-slate-50"
+    >
         <!-- Top strip -->
-        <div class="w-full bg-[#111827] border-b border-[#1f2937] text-[11px] sm:text-xs">
+        <div
+            class="w-full bg-slate-100/70 border-b border-slate-200 text-[11px] sm:text-xs dark:bg-[#111827] dark:border-[#1f2937]"
+        >
             <div
                 class="max-w-6xl mx-auto px-4 sm:px-6 h-9 flex items-center justify-between text-slate-300"
             >
                 <div class="flex items-center gap-4">
-                    <span class="uppercase text-[10px] tracking-wide text-slate-400">
+                    <span
+                        class="uppercase text-[10px] tracking-wide text-slate-500 dark:text-slate-400"
+                    >
                         For
-                        <span class="font-semibold text-slate-100">Tour Operators / Agents</span>
+                        <span
+                            class="font-semibold text-slate-900 dark:text-slate-100"
+                        >
+                            Tour Operators / Agents
+                        </span>
                     </span>
                     <Link
                         href="/accommodation-owners"
@@ -39,7 +76,9 @@ defineProps({
         </div>
 
         <!-- Main header -->
-        <header class="w-full bg-[#020617]/95 border-b border-[#1f2937]">
+        <header
+            class="w-full bg-white/95 border-b border-slate-200 text-slate-900 dark:bg-[#020617]/95 dark:border-[#1f2937] dark:text-slate-100 backdrop-blur"
+        >
             <div
                 class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between text-slate-100"
             >
@@ -47,29 +86,46 @@ defineProps({
                     <img
                         src="/logo.png"
                         alt="Jumuika Pro logo"
-                        class="h-9 w-9 rounded-md object-contain bg-[#020617] border border-[#374151]"
+                        class="h-9 w-9 rounded-md object-contain bg-slate-900 border border-slate-300 dark:bg-[#020617] dark:border-[#374151]"
                     />
                     <div class="leading-tight">
                         <div class="font-semibold tracking-tight text-sm sm:text-base">
                             Jumuika Pro
                         </div>
-                        <div class="text-[10px] uppercase tracking-[0.16em] text-[#facc15]">
+                        <div
+                            class="text-[10px] uppercase tracking-[0.16em] text-[#ca8a04] dark:text-[#facc15]"
+                        >
                             For Tour Operators
                         </div>
                     </div>
                 </div>
 
-                <nav class="hidden md:flex items-center gap-6 text-xs sm:text-sm text-slate-200">
-                    <a href="#features" class="hover:text-white">Features</a>
-                    <a href="#workflow" class="hover:text-white">How it works</a>
-                    <a href="#results" class="hover:text-white">Results</a>
+                <nav class="hidden md:flex items-center gap-6 text-xs sm:text-sm">
+                    <a href="#features" class="hover:text-slate-900 dark:hover:text-white">
+                        Features
+                    </a>
+                    <a href="#workflow" class="hover:text-slate-900 dark:hover:text-white">
+                        How it works
+                    </a>
+                    <a href="#results" class="hover:text-slate-900 dark:hover:text-white">
+                        Results
+                    </a>
                 </nav>
 
                 <div class="flex items-center gap-3 text-xs sm:text-sm">
+                    <button
+                        type="button"
+                        class="inline-flex items-center px-3 py-1.5 rounded-full border border-slate-400/60 text-[11px] text-slate-800 bg-white hover:bg-slate-100 dark:border-slate-600 dark:text-slate-100 dark:bg-[#020617] dark:hover:bg-slate-800/70"
+                        @click="isDark = !isDark"
+                    >
+                        <span class="mr-1">Theme</span>
+                        <span v-if="isDark">☀️</span>
+                        <span v-else>🌙</span>
+                    </button>
                     <Link
                         v-if="canLogin"
                         :href="route('login')"
-                        class="hidden sm:inline-flex items-center px-4 py-1.5 rounded-full border border-slate-600 text-slate-100 hover:bg-slate-800/70"
+                        class="hidden sm:inline-flex items-center px-4 py-1.5 rounded-full border border-slate-400 text-slate-900 hover:bg-slate-100 dark:border-slate-600 dark:text-slate-100 dark:hover:bg-slate-800/70"
                     >
                         Sign In
                     </Link>
@@ -131,7 +187,7 @@ defineProps({
                         </div>
                     </div>
 
-                    <!-- Right: visual -->
+                    <!-- Right: video preview -->
                     <div class="flex flex-col gap-4">
                         <div
                             class="relative rounded-3xl bg-gradient-to-br from-[#facc15] via-[#fbbf24] to-[#a16207] p-1 shadow-2xl shadow-black/40"
@@ -143,25 +199,26 @@ defineProps({
                                     class="px-4 py-3 flex items-center justify-between border-b border-[#1f2937] bg-[#020617]"
                                 >
                                     <span class="text-xs font-semibold text-slate-100">
-                                        Live STO Quote
+                                        Tanzanian Safari Demo
                                     </span>
-                                    <span class="text-[10px] text-[#facc15]">Safari Preview</span>
+                                    <span
+                                        class="text-[10px] px-2 py-0.5 rounded-full bg-slate-100/10 text-[#facc15] border border-[#facc15]/40"
+                                    >
+                                        Video
+                                    </span>
                                 </div>
-                                <div class="p-4 grid grid-cols-2 gap-3">
-                                    <div class="space-y-2 text-[11px] text-slate-200">
-                                        <p class="font-semibold text-xs">Serengeti Classic 7D</p>
-                                        <p>Central Serengeti • Ngorongoro • Manyara</p>
-                                        <p class="text-[#facc15] font-semibold text-sm">
-                                            From $3,250 pp
-                                        </p>
-                                        <p class="text-slate-400">
-                                            Auto-calculated margins and rooming keep your
-                                            quotes accurate.
-                                        </p>
-                                    </div>
-                                    <div class="space-y-2">
-                                        <div class="h-20 rounded-xl bg-[url('https://images.pexels.com/photos/338504/pexels-photo-338504.jpeg?auto=compress&cs=tinysrgb&w=800')] bg-cover bg-center"></div>
-                                        <div class="h-16 rounded-xl bg-[url('https://images.pexels.com/photos/417074/pexels-photo-417074.jpeg?auto=compress&cs=tinysrgb&w=800')] bg-cover bg-center"></div>
+
+                                <div class="p-0">
+                                    <div class="relative w-full pb-[56.25%] bg-black">
+                                        <iframe
+                                            class="absolute inset-0 w-full h-full"
+                                            src="https://www.youtube.com/embed/blaRjrB-llQ?rel=0"
+                                            title="Tanzania Tours Video"
+                                            frameborder="0"
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                            referrerpolicy="strict-origin-when-cross-origin"
+                                            allowfullscreen
+                                        ></iframe>
                                     </div>
                                 </div>
                             </div>
@@ -306,5 +363,7 @@ defineProps({
                 </div>
             </section>
         </main>
+
+        <MarketingFooter />
     </div>
 </template>

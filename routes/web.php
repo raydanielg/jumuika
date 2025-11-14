@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EarlyAccessRequestController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -22,6 +23,25 @@ Route::get('/tour-operators', function () {
         'phpVersion' => PHP_VERSION,
     ]);
 })->name('tour-operators');
+
+Route::get('/accommodation-owners', function () {
+    return Inertia::render('AccommodationOwners', [
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+        'laravelVersion' => Application::VERSION,
+        'phpVersion' => PHP_VERSION,
+    ]);
+})->name('accommodation-owners');
+
+Route::get('/early-access', [EarlyAccessRequestController::class, 'create'])
+    ->name('early-access.create');
+
+Route::post('/early-access', [EarlyAccessRequestController::class, 'store'])
+    ->name('early-access.store');
+
+Route::get('/early-access/thank-you', function () {
+    return Inertia::render('EarlyAccessThankYou');
+})->name('early-access.thank-you');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
